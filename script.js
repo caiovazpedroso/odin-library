@@ -1,26 +1,4 @@
-const myLibrary = [
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    pages: 310,
-    isRead: true,
-    id: "a1b2c3d4-e5f6-4789-a012-345678901234",
-  },
-  {
-    title: "1984",
-    author: "George Orwell",
-    pages: 328,
-    isRead: false,
-    id: "b2c3d4e5-f6a7-4890-b123-456789012345",
-  },
-  {
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    pages: 496,
-    isRead: false,
-    id: "c3d4e5f6-a7b8-4901-c234-567890123456",
-  },
-];
+const myLibrary = [];
 
 function Book(title, author, pages, isRead) {
     this.title = title;
@@ -28,23 +6,31 @@ function Book(title, author, pages, isRead) {
     this.pages = pages;
     this.isRead = isRead;
     this.id = crypto.randomUUID()
-    console.log(this.id)
-    myLibrary.push(this)
-    console.log(myLibrary)
-    info = `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
+    this.info = `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
   // the constructor...
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
   // take params, create a book then store it in the array
-  new Book(title, author, pages, isRead)
+  let newBook = new Book(title, author, pages, isRead)
+  myLibrary.push(newBook)
 }
 
 function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
     let newDiv = document.createElement("div")
-    newDiv.textContent += `${book.title}, ${book.author}, ${book.pages}, ${book.isRead}`
+    newDiv.classList.add("card")
+    let newTitle = document.createElement("div");
+    newTitle.classList.add("title")
+    newTitle.textContent = book.title
+    let newAuthor = document.createElement("div")
+    newAuthor.classList.add("author");
+    newAuthor.textContent = book.author
+    let newPages = document.createElement("div")
+    newPages.classList.add("pages")
+    newPages.textContent = `${book.pages} pages`
+    newDiv.append(newTitle, newAuthor, newPages)
     UI.collection.appendChild(newDiv)
   } 
   myLibrary.forEach(x => console.log(x))
@@ -59,6 +45,16 @@ const UI = {
 
 UI.newBookButton.addEventListener("click", () => addBookToLibrary());
 UI.seeLibrary.addEventListener("click", () => iterateLibrary());
+
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
+addBookToLibrary("1984", "George Orwell", 328, false);
+addBookToLibrary("Project Hail Mary", "Andy Weir", 496, false);
+addBookToLibrary("Dune", "Frank Herbert", 412, true);
+addBookToLibrary("The Name of the Wind", "Patrick Rothfuss", 662, false);
+addBookToLibrary("Educated", "Tara Westover", 334, true);
+addBookToLibrary("Sapiens", "Yuval Noah Harari", 443, false);
+addBookToLibrary("The Left Hand of Darkness", "Ursula K. Le Guin", 304, true);
+addBookToLibrary("Atomic Habits", "James Clear", 320, false);
 
 /*
 Write a constructor for making “Book” objects. We will revisit this in the next project. Your book objects should have the book’s title, author, the number of pages, and whether or not you have read the book.
