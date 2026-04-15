@@ -47,3 +47,11 @@ text-rendering: optimizeLegibility;
     text-align: right;
     font-size: 10px;
 }
+
+dialog[open] {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    border: 1px solid gray;
+    border-radius: 6px;
+}

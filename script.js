@@ -17,8 +17,9 @@ function addBookToLibrary(title, author, pages, isRead) {
 }
 
 function handleButton(){
-  UI.myDialog.showModal();
-  addBookToLibrary();
+  let bookIsRead = false
+  if (UI.userRead.checked) {bookIsRead = true}
+  addBookToLibrary(UI.userTitle.value, UI.userAuthor.value, UI.userPages.value, bookIsRead);
 }
 
 function iterateLibrary(){
@@ -46,10 +47,16 @@ const UI = {
   newBookButton: document.querySelector("#new-book"),
   seeLibrary: document.querySelector("#iterate"),
   collection: document.querySelector("#collection"),
-  myDialog: document.querySelector("#my-dialog")
+  myDialog: document.querySelector("#my-dialog"),
+  myForm: document.querySelector("#my-form"),
+  userTitle: document.querySelector("#user-title"),
+  userAuthor: document.querySelector("#user-author"),
+  userPages: document.querySelector("#user-pages"),
+  userRead: document.querySelector("#user-read"),
 }
 
-UI.newBookButton.addEventListener("click", () => handleButton());
+UI.newBookButton.addEventListener("click", () => {UI.myForm.reset(); UI.myDialog.close(); UI.myDialog.showModal()});
+UI.myDialog.addEventListener("close", () => handleButton())
 UI.seeLibrary.addEventListener("click", () => iterateLibrary());
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
