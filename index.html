@@ -11,7 +11,33 @@
         <div id="header"></div>
         <div id="title">THE ODIN PROJECT LIBRARY</div>
         <div id="collection">
-            
+            <dialog id="my-dialog">
+                <form method="dialog">
+                    <h2>Title</h2>
+                    <p>
+                        <input type="text" id="user-title" required autofocus>
+                    </p>
+                    <h2>Author</h2>
+                    <p>
+                        <input type="text" id="user-author" required autofocus>
+                    </p>
+                    <h2>Number of pages</h2>
+                    <p>
+                        <input type="text" id="user-pages" required autofocus>
+                    </p>
+                    <h2>Was it read?</h2>
+                    <p>
+                        <input type="radio" id="isRead" value="true">
+                        <label for="true">Yes</label><br>
+                        <input type="radio" id="isRead" value="false">
+                        <label for="false">False</label><br>
+                    </p>
+                    <menu>
+                    <button value="cancel">Cancel</button>
+                    <button type="submit" value="confirm">Confirm</button>
+                    </menu>
+                </form>
+            </dialog>
         </div>
         <div id="buttons">
             <button id="new-book">Create New Book</button>

@@ -16,6 +16,11 @@ function addBookToLibrary(title, author, pages, isRead) {
   myLibrary.push(newBook)
 }
 
+function handleButton(){
+  UI.myDialog.showModal();
+  addBookToLibrary();
+}
+
 function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
@@ -41,9 +46,10 @@ const UI = {
   newBookButton: document.querySelector("#new-book"),
   seeLibrary: document.querySelector("#iterate"),
   collection: document.querySelector("#collection"),
+  myDialog: document.querySelector("#my-dialog")
 }
 
-UI.newBookButton.addEventListener("click", () => addBookToLibrary());
+UI.newBookButton.addEventListener("click", () => handleButton());
 UI.seeLibrary.addEventListener("click", () => iterateLibrary());
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
