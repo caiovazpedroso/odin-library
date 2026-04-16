@@ -15,12 +15,20 @@ font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
 text-rendering: optimizeLegibility;
 }
 
+#header {
+    font-size: 24px;
+    font-weight: 800;
+    padding: 20px;
+    background-color: lightgrey;
+}
+
 #whole {
     display: flex;
     flex-direction: column;
 }
 
 #collection {
+    padding: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

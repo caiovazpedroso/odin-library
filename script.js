@@ -9,33 +9,28 @@ function Book(title, author, pages, isRead) {
     this.info = () => `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
   }
 
+Book.prototype.toggleRead = function () {
+  this.isRead = !this.isRead;
+  iterateLibrary();
+};
+
 function addBookToLibrary(title, author, pages, isRead) {
   let newBook = new Book(title, author, pages, isRead)
   myLibrary.push(newBook)
 }
 
 function handleButton(){
-  let bookIsRead = false
-  if (UI.userRead.checked) {bookIsRead = true}
+  const selected = UI.myForm.querySelector('input[name="user-read"]:checked');
+  const bookIsRead = selected?.value === "yes";
   addBookToLibrary(UI.userTitle.value, UI.userAuthor.value, UI.userPages.value, bookIsRead);
   iterateLibrary();
 }
 
-function removeBook(card){
-  el = document.getElementById(card.id)
+function removeBook(id){
+  let el = document.querySelector(`[data-book-id="${id}"]`)
   el.remove()
-  const index = myLibrary.findIndex(item => item.id === card.id)
+  const index = myLibrary.findIndex(item => item.id === id)
   myLibrary.splice(index, 1)
-}
-
-function flipIsRead(card){
-  const index = myLibrary.findIndex(item => item.id === card.id)
-  if (myLibrary[index].isRead === true) {
-    myLibrary[index].isRead = false
-  } else if (myLibrary[index].isRead === false) {
-    myLibrary[index].isRead = true
-  }
-  iterateLibrary()
 }
 
 function createCard(book){
@@ -61,24 +56,23 @@ function createCard(book){
   let removeButton = document.createElement("button");
   removeButton.classList.add("remove-button")
   removeButton.textContent = "X";
-  newCard.id = book.id;
-  removeButton.addEventListener("click", () => removeBook(newCard))
+  newCard.dataset.bookId = book.id;
+  removeButton.addEventListener("click", () => removeBook(book.id))
   let readButton = document.createElement("button")
   readButton.textContent = "Read"
-  readButton.addEventListener("click", () => flipIsRead(newCard))
-  if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
-  else {newIsRead.textContent = "Not read"}
+  readButton.addEventListener("click", () => book.toggleRead())
+  newIsRead.textContent = book.isRead ?  "Has been read" : "Not read";
   newCardHeader.append(newTitle, removeButton)
   newCardBody.append(newAuthor, newPages, newIsRead)
   newCardFooter.append(readButton)
   newCard.append(newCardHeader, newCardBody, newCardFooter)
-  UI.collection.appendChild(newCard)
+  return newCard
 } 
 
 function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
-    createCard(book);
+    UI.collection.appendChild(createCard(book));
   }
 }
 
@@ -91,7 +85,6 @@ const UI = {
   userTitle: document.querySelector("#user-title"),
   userAuthor: document.querySelector("#user-author"),
   userPages: document.querySelector("#user-pages"),
-  userRead: document.querySelector("#user-read"),
 }
 
 UI.newBookButton.addEventListener("click", () => {UI.myForm.reset(); UI.myDialog.close(); UI.myDialog.showModal()});
