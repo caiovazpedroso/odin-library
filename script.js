@@ -21,43 +21,55 @@ function handleButton(){
   iterateLibrary();
 }
 
+function removeBook(card){
+  el = document.getElementById(card.id)
+  el.remove()
+  const index = myLibrary.findIndex(item => item.id === card.id)
+  myLibrary.splice(index, 1)
+}
+
+function createCard(book){
+  let newCard = document.createElement("div")
+  newCard.classList.add("card")
+  let newCardHeader = document.createElement("div")
+  newCardHeader.classList.add("card-header")
+  let newCardBody = document.createElement("div")
+  newCardBody.classList.add("card-body")
+  let newCardFooter = document.createElement("div")
+  newCardFooter.classList.add("card-footer")
+  let newTitle = document.createElement("div");
+  newTitle.classList.add("title")
+  newTitle.textContent = book.title
+  let newAuthor = document.createElement("div")
+  newAuthor.classList.add("author");
+  newAuthor.textContent = book.author
+  let newPages = document.createElement("div")
+  newPages.classList.add("pages")
+  newPages.textContent = `${book.pages} pages`
+  let newIsRead = document.createElement("div");
+  newIsRead.classList.add("isRead");
+  let removeButton = document.createElement("button");
+  removeButton.classList.add("remove-button")
+  removeButton.textContent = "X";
+  newCard.id = book.id;
+  removeButton.addEventListener("click", () => removeBook(newCard))
+  let readButton = document.createElement("button")
+  readButton.textContent = "Read"
+  if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
+  else {newIsRead.textContent = "Not read"}
+  newCardHeader.append(newTitle, removeButton)
+  newCardBody.append(newAuthor, newPages, newIsRead)
+  newCardFooter.append(readButton)
+  newCard.append(newCardHeader, newCardBody, newCardFooter)
+  UI.collection.appendChild(newCard)
+} 
+
 function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
-    let newCard = document.createElement("div")
-    newCard.classList.add("card")
-    let newCardHeader = document.createElement("div")
-    newCardHeader.classList.add("card-header")
-    let newCardBody = document.createElement("div")
-    newCardBody.classList.add("card-body")
-    let newCardFooter = document.createElement("div")
-    newCardFooter.classList.add("card-footer")
-    let newTitle = document.createElement("div");
-    newTitle.classList.add("title")
-    newTitle.textContent = book.title
-    let newAuthor = document.createElement("div")
-    newAuthor.classList.add("author");
-    newAuthor.textContent = book.author
-    let newPages = document.createElement("div")
-    newPages.classList.add("pages")
-    newPages.textContent = `${book.pages} pages`
-    let newIsRead = document.createElement("div");
-    newIsRead.classList.add("isRead");
-    let removeButton = document.createElement("button");
-    removeButton.classList.add("remove-button")
-    removeButton.textContent = "X";
-    let readButton = document.createElement("button")
-    readButton.textContent = "Read"
-    if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
-    else {newIsRead.textContent = "Not read"}
-    newCardHeader.append(newTitle, removeButton)
-    newCardBody.append(newAuthor, newPages, newIsRead)
-    newCardFooter.append(readButton)
-    newCard.append(newCardHeader, newCardBody, newCardFooter)
-    UI.collection.appendChild(newCard)
-  } 
-  myLibrary.forEach(x => console.log(x))
-
+    createCard(book);
+    myLibrary.forEach(x => console.log(x));
+  }
 }
 
 const UI = {
