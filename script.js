@@ -28,6 +28,16 @@ function removeBook(card){
   myLibrary.splice(index, 1)
 }
 
+function flipIsRead(card){
+  const index = myLibrary.findIndex(item => item.id === card.id)
+  if (myLibrary[index].isRead === true) {
+    myLibrary[index].isRead = false
+  } else {
+    myLibrary[index].isRead = true
+  }
+  iterateLibrary()
+}
+
 function createCard(book){
   let newCard = document.createElement("div")
   newCard.classList.add("card")
@@ -55,6 +65,7 @@ function createCard(book){
   removeButton.addEventListener("click", () => removeBook(newCard))
   let readButton = document.createElement("button")
   readButton.textContent = "Read"
+  readButton.addEventListener("click", () => flipIsRead(newCard))
   if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
   else {newIsRead.textContent = "Not read"}
   newCardHeader.append(newTitle, removeButton)
