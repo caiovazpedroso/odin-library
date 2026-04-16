@@ -6,9 +6,9 @@ function Book(title, author, pages, isRead) {
     this.pages = pages;
     this.isRead = isRead;
     this.id = crypto.randomUUID()
-    this.info = `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
+    this.info = () => `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
+  }
   // the constructor...
-}
 
 function addBookToLibrary(title, author, pages, isRead) {
   // take params, create a book then store it in the array
@@ -36,7 +36,11 @@ function iterateLibrary(){
     let newPages = document.createElement("div")
     newPages.classList.add("pages")
     newPages.textContent = `${book.pages} pages`
-    newDiv.append(newTitle, newAuthor, newPages)
+    let newIsRead = document.createElement("div");
+    newIsRead.classList.add("isRead");
+    if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
+    else {newIsRead.textContent = "Not read"}
+    newDiv.append(newTitle, newAuthor, newPages, newIsRead)
     UI.collection.appendChild(newDiv)
   } 
   myLibrary.forEach(x => console.log(x))
@@ -56,7 +60,8 @@ const UI = {
 }
 
 UI.newBookButton.addEventListener("click", () => {UI.myForm.reset(); UI.myDialog.close(); UI.myDialog.showModal()});
-UI.myDialog.addEventListener("close", () => handleButton())
+UI.myDialog.addEventListener("cancel", () => {UI.myForm.reset()});
+UI.myDialog.addEventListener("close", () => {UI.myDialog.returnValue === "confirm" ? handleButton() : null});
 UI.seeLibrary.addEventListener("click", () => iterateLibrary());
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
@@ -68,11 +73,3 @@ addBookToLibrary("Educated", "Tara Westover", 334, true);
 addBookToLibrary("Sapiens", "Yuval Noah Harari", 443, false);
 addBookToLibrary("The Left Hand of Darkness", "Ursula K. Le Guin", 304, true);
 addBookToLibrary("Atomic Habits", "James Clear", 320, false);
-
-/*
-Write a constructor for making “Book” objects. We will revisit this in the next project. Your book objects should have the book’s title, author, the number of pages, and whether or not you have read the book.
-
-Put a function info() into the constructor that can report the book info like so:
-
-console.log(theHobbit.info()); // "The Hobbit by J.R.R. Tolkien, 295 pages, not read yet"
-*/
