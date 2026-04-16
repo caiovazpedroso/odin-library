@@ -8,10 +8,8 @@ function Book(title, author, pages, isRead) {
     this.id = crypto.randomUUID()
     this.info = () => `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`
   }
-  // the constructor...
 
 function addBookToLibrary(title, author, pages, isRead) {
-  // take params, create a book then store it in the array
   let newBook = new Book(title, author, pages, isRead)
   myLibrary.push(newBook)
 }
@@ -20,13 +18,20 @@ function handleButton(){
   let bookIsRead = false
   if (UI.userRead.checked) {bookIsRead = true}
   addBookToLibrary(UI.userTitle.value, UI.userAuthor.value, UI.userPages.value, bookIsRead);
+  iterateLibrary();
 }
 
 function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
-    let newDiv = document.createElement("div")
-    newDiv.classList.add("card")
+    let newCard = document.createElement("div")
+    newCard.classList.add("card")
+    let newCardHeader = document.createElement("div")
+    newCardHeader.classList.add("card-header")
+    let newCardBody = document.createElement("div")
+    newCardBody.classList.add("card-body")
+    let newCardFooter = document.createElement("div")
+    newCardFooter.classList.add("card-footer")
     let newTitle = document.createElement("div");
     newTitle.classList.add("title")
     newTitle.textContent = book.title
@@ -38,10 +43,18 @@ function iterateLibrary(){
     newPages.textContent = `${book.pages} pages`
     let newIsRead = document.createElement("div");
     newIsRead.classList.add("isRead");
+    let removeButton = document.createElement("button");
+    removeButton.classList.add("remove-button")
+    removeButton.textContent = "X";
+    let readButton = document.createElement("button")
+    readButton.textContent = "Read"
     if (book.isRead === true) {newIsRead.textContent = "Has been read"} 
     else {newIsRead.textContent = "Not read"}
-    newDiv.append(newTitle, newAuthor, newPages, newIsRead)
-    UI.collection.appendChild(newDiv)
+    newCardHeader.append(newTitle, removeButton)
+    newCardBody.append(newAuthor, newPages, newIsRead)
+    newCardFooter.append(readButton)
+    newCard.append(newCardHeader, newCardBody, newCardFooter)
+    UI.collection.appendChild(newCard)
   } 
   myLibrary.forEach(x => console.log(x))
 
