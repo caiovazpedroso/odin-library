@@ -32,7 +32,7 @@ function flipIsRead(card){
   const index = myLibrary.findIndex(item => item.id === card.id)
   if (myLibrary[index].isRead === true) {
     myLibrary[index].isRead = false
-  } else {
+  } else if (myLibrary[index].isRead === false) {
     myLibrary[index].isRead = true
   }
   iterateLibrary()
@@ -79,7 +79,6 @@ function iterateLibrary(){
   UI.collection.textContent = ""
   for (const book of myLibrary) {
     createCard(book);
-    myLibrary.forEach(x => console.log(x));
   }
 }
 
